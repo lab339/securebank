@@ -1,0 +1,44 @@
+main .forex-container > div {
+    max-width: 1280px;
+  }
+  
+  
+  main .forex-container {
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+
+  main .forex {
+    position: relative;
+    padding:40px;
+    box-sizing: border-box;
+  }
+
+  @media (width >= 1280px) {
+    .main .forex {
+        padding: 0;
+      }
+  }
+
+.forex table {
+    padding: 0;
+    box-sizing: border-box;
+    table-layout: auto;
+    width: 100%;
+    margin: auto;
+}
+
+@media (width >= 600px) {
+ .forex table {
+    width: 50%;
+    }
+}
+
+.forex table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.forex table img {
+     width: 50px;
+}

@@ -1,0 +1,298 @@
+main .hero-container > div {
+  max-width: 1920px;
+}
+  
+main .hero-container {
+  padding: 0;
+}
+
+main .hero-container h3 {
+text-align: center;
+}
+
+main .hero {
+  position: relative;
+  padding: 32px;
+  min-height: 454px;
+  color: var(--background-color);
+}
+
+main .hero .hero-body {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+main .hero h1 {
+  max-width: 1280px;
+  margin: 106px auto 0;
+  color: white;
+  font: normal normal normal 48px/52px adobe-clean, sans-serif;
+}
+
+main .hero h2 {
+  max-width: 1280px;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  text-align: left;
+  font: normal normal 900 48px/52px adobe-clean, sans-serif;
+}
+
+main .hero picture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+main .hero picture::after {
+  content:'';
+  position:absolute;
+  left:0; top:0;
+  width:100%; height:100%;
+  display:inline-block; 
+  background: linear-gradient(to right, rgba(0 0 0 / 50%) 40%, rgba(0 0 0 / 0%))
+}
+
+main .hero img {
+  object-fit: cover;
+  object-position: 0 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (width >= 1280px) {
+  main .hero img {
+    object-fit: cover;
+    object-position: 0 -250px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.hero [data-align="center"] {
+  text-align: center;
+}
+
+#log-in {
+  position: absolute;
+  width: 370px;
+  height: 392px;
+  left: 909px;
+  top: -110px;
+  overflow: visible;
+  background-color: white;
+}
+
+#log-in .login-form-message {
+  overflow: visible;
+  padding: 40px;
+  width: 157px;
+  white-space: nowrap;
+  line-height: 30px;
+  margin-top: -3px;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: rgba(44 44 44 / 100%);
+}
+
+#log-in .error-message {
+  font-size: 14px;
+  color: red;
+  margin-bottom: -30px;
+}
+
+#log-in .login-form-input {
+  width: 290px;
+  height: 65.5px;
+  overflow: visible;
+  padding: 0 0 15px 40px;
+  box-sizing: content-box;
+}
+
+#log-in .login-form-input input::placeholder {
+  color: rgba(129 138 150 / 100%);
+}
+
+#log-in .login-form-label {
+  overflow: visible;
+  width: 61px;
+  white-space: nowrap;
+  line-height: 20px;
+  margin-top: 0;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  color: rgba(44 44 44 / 100%);
+  padding-bottom: 9px;
+}
+
+#log-in .login-form-input input {
+  overflow: visible;
+  padding-left: 20px;
+  width: 290px;
+  height: 40px;
+  white-space: nowrap;
+  line-height: 20px;
+  margin-top: 0;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  border: hidden;
+  background-color: rgba(243 242 246 / 100%);
+}
+
+#login-submit {
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+#log-in .login-form-submit {
+  width: 370px;
+  height: 40px;
+  overflow: visible;
+  padding: 10px 30px;
+}
+
+#login-button {
+  font-family: var(--body-font-family);
+  display: inline-block;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: 2px solid transparent;
+  padding: 10px 30px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--background-color);
+  background-color: var(--link-color);
+  margin: 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 30px;
+}
+
+.login-form-forgot-password {
+  overflow: visible;
+  white-space: nowrap;
+  line-height: 20px;
+  margin-top: 20px;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: rgba(44 44 44 / 100%);
+  text-align: center;
+}
+
+@media (width <= 1280px) {
+  #log-in {
+    width: 300px;
+    height: 392px;
+    left: 730px;
+    top: -110px;
+  }
+
+  #log-in .login-form-input {
+    width: 300px;
+  }
+
+  #log-in .login-form-input input{
+    width: 220px;
+  }
+
+  #log-in .login-form-submit {
+    width: 300px;
+  }
+}
+
+.user-info {
+  position: absolute;
+  width: 370px;
+  height: 245px;
+  left: 909px;
+  top: -35px;
+  overflow: visible;
+  background-color: white;
+}
+
+@media (width <= 1280px) {
+  .user-info {
+    left: 730px;
+    width: 300px;
+  }
+}
+
+
+.user-info .dashboard-mini {
+  overflow: visible;
+  padding: 40px;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  color: rgba(44 44 44 / 100%);
+}
+
+.dashboard-mini .dashboard-mini-welcome {
+  width: 157px;
+  white-space: nowrap;
+  line-height: 30px;
+  margin-top: -3px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.dashboard-mini-account-balance-heading {
+  width: 140px;
+  white-space: nowrap;
+  line-height: 18px;
+  margin-top: -1px;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  color: rgba(128 128 128 / 100%);
+  text-transform: uppercase;
+}
+
+.dashboard-mini-account-balance-value {
+  width: 140px;
+  white-space: nowrap;
+  line-height: 18px;
+  margin-top: 15px;
+  text-align: left;
+  font-family: 'Adobe Clean', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  color: rgba(44 44 44 / 100%);
+}
+
+@media (width < 1050px) {
+  .dashboard-mini {
+    display: none;
+  }
+  
+  .login {
+    display: none;
+  }
+  
+}
