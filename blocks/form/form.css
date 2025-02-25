@@ -224,7 +224,7 @@ main .form form fieldset > .checkbox-wrapper {
 
 main .form .radio-wrapper  label,
 main .form .checkbox-wrapper label {
-    flex-basis: calc(100% - 24px);
+    flex-basis: calc(100% - 34px);
 }
 
 main .form form fieldset.cards > .radio-wrapper > label,
@@ -644,10 +644,6 @@ main .form form .checkbox-wrapper.field-invalid > .field-description {
 main .form form .radio-wrapper.field-invalid > input,
 main .form form .checkbox-wrapper.field-invalid > input {
     outline: 1px solid var(--form-error-color);
-}
-
-main .form form .checkbox-wrapper.field-invalid > label {
-    flex-basis: 90%;
 }
 
 main .form form .checkbox-wrapper {
