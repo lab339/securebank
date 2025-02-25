@@ -1,7 +1,8 @@
 {
   "mappings": [
     "/content/securebank/:/",
-    "/content/securebank/placeholders:/placeholders.json"
+    "/content/securebank/placeholders:/placeholders.json",
+    "/content/forms/:/content/forms/"
   ],
-  "includes": ["/content/securebank/"]
+  "includes": ["/content/securebank/", "/content/forms/"]
 }
