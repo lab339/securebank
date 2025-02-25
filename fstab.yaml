@@ -1,5 +1,5 @@
 mountpoints:
   /: 
-    url: https://author-p149891-e1546481.adobeaemcloud.com/bin/franklin.delivery/lab339/securebank/main
+    url: https://author-p149747-e1544263.adobeaemcloud.com/bin/franklin.delivery/lab339/securebank/main
     type: markup
     suffix: ".html"
