@@ -61,11 +61,10 @@ async function fieldChanged(payload, form, generateFormRendition) {
   if (!field) {
     return;
   }
-  console.log(changes);
   const fieldWrapper = field?.closest('.field-wrapper');
   changes.forEach((change) => {
     const { propertyName, currentValue, prevValue } = change;
-    console.log(propertyName, currentValue, prevValue);
+    let validity;
     switch (propertyName) {
       case 'required':
         if (currentValue === true) {
@@ -75,12 +74,9 @@ async function fieldChanged(payload, form, generateFormRendition) {
         }
         break;
       case 'validationMessage':
-        console.log('validationMessage changed');
-        const { validity } = payload.field;
-        console.log(validity);
+        validity = payload.field.validity;
         if (field.setCustomValidity
         && (validity?.expressionMismatch || validity?.customConstraint)) {
-          console.log('setting custom validity');
           field.setCustomValidity(currentValue);
           updateOrCreateInvalidMsg(field, currentValue);
         }
@@ -186,7 +182,18 @@ async function fieldChanged(payload, form, generateFormRendition) {
           }
           updateOrCreateInvalidMsg(field, '');
         }
-        console.log('valid changed', currentValue, field.validity);
+        break;
+      case 'maximum':
+        if (field.type === 'number' || field.type === 'date'
+          || field.getAttribute('data-fieldType') === 'date') {
+          field.setAttribute('max', currentValue);
+        }
+        break;
+      case 'minimum':
+        if (field.type === 'number' || field.type === 'date'
+          || field.getAttribute('data-fieldType') === 'date') {
+          field.setAttribute('min', currentValue);
+        }
         break;
       default:
         break;
