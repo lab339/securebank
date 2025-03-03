@@ -659,3 +659,7 @@ main .form form .checkbox-wrapper label {
 main .form form .checkbox-wrapper input {
     margin-top: 6px;
 }
+
+body {
+    background-color: rgb(0 150 166);
+}
