@@ -685,6 +685,24 @@
           }
         },
         {
+          "title": "Number Slider",
+          "id": "slider",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/fd/components/form/numberinput/v1/numberinput",
+                "template": {
+                  "jcr:title": "Number Slider",
+                  "fieldType": "number-input",
+                  "fd:viewType": "slider",
+                  "enabled": true,
+                  "visible": true
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Terms and conditions",
           "id": "tnc",
           "plugins": {

@@ -1,0 +1,41 @@
+{
+  "definitions": [
+      {
+          "title": "Number Slider",
+          "id": "slider",
+          "plugins": {
+              "xwalk": {
+                  "page": {
+                      "resourceType": "core/fd/components/form/numberinput/v1/numberinput",
+                      "template": {
+                          "jcr:title": "Number Slider",
+                          "fieldType": "number-input",
+                          "fd:viewType": "slider",
+                          "enabled": true,
+                          "visible": true
+                      }
+                  }
+              }
+          }
+      }
+  ],
+  "models": [
+      {
+          "id": "slider",
+          "fields": [
+              {
+                  "...": "../../../../models/form-components/_number-input.json#/models/number-input/fields/basic"
+              },
+              {
+                  "...": "../../../../models/form-common/_help-container.json"
+              },
+              {
+                  "...": "../../../../models/form-components/_number-input.json#/models/number-input/fields/validation"
+              },
+              {
+                  "...": "../../../../models/form-components/_number-input.json#/models/number-input/fields/formats"
+              }
+          ]
+      }
+  ]
+}
