@@ -1,0 +1,21 @@
+/** styling for range */
+main .form .slider-widget-wrapper.decorated input[type="range"] {
+  margin: unset;
+  padding: unset;
+  appearance: none;
+  height: 5px;
+  border-radius: 5px;
+  border: none;
+  background-image: linear-gradient(to right, var(--button-primary-color) calc(100% * var(--current-steps)/var(--total-steps)), #C5C5C5 calc(100% * var(--current-steps)/var(--total-steps)));
+}
+
+main .form .slider-widget-wrapper.decorated input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--button-primary-color);
+  cursor: pointer;
+  outline: 3px solid #fff;
+}
