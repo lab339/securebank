@@ -694,6 +694,7 @@
                 "template": {
                   "jcr:title": "Number Slider",
                   "fieldType": "number-input",
+                  "fd:viewType": "slider",
                   "enabled": true,
                   "visible": true
                 }
