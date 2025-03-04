@@ -24,10 +24,44 @@
           "id": "slider",
           "fields": [
               {
-                  "...": "../../../../models/form-components/_number-input.json#/models/number-input/fields/basic"
+                "component": "container",
+                "name": "basic",
+                "label": "Basic",
+                "collapsible": false,
+                "fields" : [
+                  {
+                    "..." : "../../../../models/form-common/_basic-input-placeholder-fields.json#/fields"
+                  },
+                  {
+                    "component": "number",
+                    "name": "increment",
+                    "label": "Increment",
+                    "valueType": "number",
+                    "validation": {
+                      "numberMin": 1
+                    },
+                    "description": "The number by which to increment the slider (Must be greater than 1)"
+                  },
+                  {
+                    "component": "select",
+                    "name": "variant",
+                    "label": "Variant",
+                    "options": [
+                        {
+                            "name": "Default",
+                            "value": "default"
+                        },
+                        {
+                            "name": "Show Values",
+                            "value": "show-values"
+                        }
+                    ],
+                    "value": "default"
+                  }
+                ]
               },
               {
-                  "...": "../../../../models/form-common/_help-container.json"
+                "...": "../../../../models/form-common/_help-container.json"
               },
               {
                   "...": "../../../../models/form-components/_number-input.json#/models/number-input/fields/validation"
