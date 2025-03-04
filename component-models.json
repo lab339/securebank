@@ -4636,6 +4636,32 @@
             "name": "default",
             "label": "Default Value",
             "valueType": "string"
+          },
+          {
+            "component": "number",
+            "name": "increment",
+            "label": "Increment",
+            "valueType": "number",
+            "validation": {
+              "numberMin": 1
+            },
+            "description": "The number by which to increment the slider (Must be greater than 1)"
+          },
+          {
+            "component": "select",
+            "name": "variant",
+            "label": "Variant",
+            "options": [
+              {
+                "name": "Default",
+                "value": "default"
+              },
+              {
+                "name": "Show Values",
+                "value": "show-values"
+              }
+            ],
+            "value": "default"
           }
         ]
       },
