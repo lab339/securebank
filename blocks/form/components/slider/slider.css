@@ -19,3 +19,12 @@ main .form .slider-widget-wrapper.decorated input[type="range"]::-webkit-slider-
   cursor: pointer;
   outline: 3px solid #fff;
 }
+
+main .form .slider-widget-wrapper.decorated .slider-bubble {
+  color: #17252e;
+  font-size: 20px;
+  line-height: 28px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
