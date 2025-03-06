@@ -318,15 +318,59 @@
             "value": "fd/af/components/guidesubmittype/franklin/spreadsheet"
           },
           {
-            "name": "Invoke a Power Automate flow",
-            "value": "fd/af/components/guidesubmittype/franklin/powerautomate"
-          },
-          {
             "name": "Submit to AEM Workflow",
             "value": "fd/af/components/guidesubmittype/aemworkflow"
+          },
+          {
+            "name": "Submit to Azure Blob Storage",
+            "value": "fd/af/components/guidesubmittype/azureblobstorage"
           }
         ],
         "value": ""
+      },
+      {
+        "component": "container",
+        "name": "aemWorkflow",
+        "label": "AEM Workflow Configuration",
+        "collapsible": false,
+        "condition": {
+          "==": [
+            {
+              "var": "actionType"
+            },
+            "fd/af/components/guidesubmittype/aemworkflow"
+          ]
+        },
+        "fields": [
+          {
+            "component": "text",
+            "name": "workflowPath",
+            "label": "Workflow Path",
+            "valueType": "string"
+          }
+        ]
+      },
+      {
+        "component": "container",
+        "name": "azureBlobStorage",
+        "label": "Azure Blob Storage Configuration",
+        "collapsible": false,
+        "condition": {
+          "==": [
+            {
+              "var": "actionType"
+            },
+            "fd/af/components/guidesubmittype/azureblobstorage"
+          ]
+        },
+        "fields": [
+          {
+            "component": "text",
+            "name": "storageConfiguration",
+            "label": "Storage Configuration",
+            "valueType": "string"
+          }
+        ]
       },
       {
         "component": "container",
