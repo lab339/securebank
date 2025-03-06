@@ -27,5 +27,18 @@ function days(endDate, startDate, globals) {
   return end - start;
 }
 
+/**
+ * Set the maximum date for a date field.
+ * @param {scope} globals
+ */
+function setMaximumDate(globals) {
+  const date1 = new Date();
+  // get a date 18 years and 1 day ago
+  const minimum = new Date(date1.getFullYear() - 18, date1.getMonth(), date1.getDate() - 1);
+  // convert to YYYY-MM-DD
+  const stringDate = minimum.toISOString().split('T')[0];
+  globals.functions.setProperty(globals.field, { maximum: stringDate });
+}
+
 // eslint-disable-next-line import/prefer-default-export
-export { getFullName, days };
+export { getFullName, days, setMaximumDate };
