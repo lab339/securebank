@@ -52,23 +52,56 @@
                   {
                       "name": "Send email",
                       "value": "fd/af/components/guidesubmittype/email"
+                  },
+                  {
+                    "name": "Submit to Spreadsheet",
+                    "value": "fd/af/components/guidesubmittype/franklin/spreadsheet"
+                  },
+                  {
+                    "name": "Invoke a Power Automate flow",
+                    "value": "fd/af/components/guidesubmittype/franklin/powerautomate"
+                  },
+                  {
+                    "name": "Submit to AEM Workflow",
+                    "value": "fd/af/components/guidesubmittype/aemworkflow"
                   }
               ],
               "value" : ""
           },
           {
-              "component": "boolean",
-              "name": "enableRestEndpointPost",
-              "label": "Enable POST request",
-              "valueType": "string",
-              "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] }
+            "component": "container",
+            "name": "email",
+            "label": "Email Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/franklin/spreadsheet"] },
+            "fields" :[
+              {
+                "component": "text",
+                "name": "spreadsheetUrl",
+                "label": "Spreadsheet URL",
+                "valueType": "string"
+            }
+            ]
           },
           {
-              "component": "text",
-              "name": "restEndpointPostUrl",
-              "label": "URL For POST request",
-              "valueType": "string",
-              "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] }
+            "component": "container",
+            "name": "email",
+            "label": "Email Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] },
+            "fields": [
+              {
+                "component": "boolean",
+                "name": "enableRestEndpointPost",
+                "label": "Enable POST request",
+                "valueType": "string"
+              },
+              {
+                  "component": "text",
+                  "name": "restEndpointPostUrl",
+                  "label": "URL For POST request",
+                  "valueType": "string"
+              }]
           },
           {
               "component": "container",
