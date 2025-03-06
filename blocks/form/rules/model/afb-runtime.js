@@ -18,10 +18,6 @@
 * the terms of the Adobe license agreement accompanying it.
 *************************************************************************/
 
-/*
- *  Package: @aemforms/af-core
- *  Version: 0.22.117-SNAPSHOT
- */
 import { propertyChange, ExecuteRule, Initialize, RemoveItem, Change, FormLoad, FieldChanged, ValidationComplete, Valid, Invalid, SubmitSuccess, CustomEvent, SubmitError, SubmitFailure, Submit, Save, Reset, RemoveInstance, AddInstance, AddItem, Click } from './afb-events.js';
 import Formula from '../formula/index.js';
 import { format, parseDefaultDate, datetimeToNumber, parseDateSkeleton, numberToDatetime, formatDate, parseDate } from './afb-formatters.min.js';
@@ -161,8 +157,7 @@ const getProperty = (data, key, def) => {
 const isFile = function (item) {
     return (item?.type === 'file' || item?.type === 'file[]') ||
         ((item?.type === 'string' || item?.type === 'string[]') &&
-            (item?.format === 'binary' || item?.format === 'data-url')) ||
-        item?.fieldType === 'file-input';
+            (item?.format === 'binary' || item?.format === 'data-url'));
 };
 const isCheckbox = function (item) {
     const fieldType = item?.fieldType || defaultFieldTypes(item);
@@ -243,23 +238,6 @@ class DataValue {
         return (!enabled && this.$_fields.length);
     }
     get $value() {
-        const formInFileInput = this.$_fields.find(x => {
-            if (isFile(x)) {
-                return x;
-            }
-        });
-        if (formInFileInput && (this.$_fields.every(_ => ['string', 'string[]'].includes(_.type)))) {
-            const attachmentMap = formInFileInput.form._exportDataAttachmentMap;
-            if (attachmentMap && attachmentMap[formInFileInput.id]) {
-                const attachment = attachmentMap[formInFileInput.id];
-                if (Array.isArray(attachment)) {
-                    return attachment.map(item => item.data);
-                }
-                else {
-                    return attachment.data;
-                }
-            }
-        }
         return this.$_value;
     }
     setValue(typedValue, originalValue, fromField) {
@@ -688,77 +666,33 @@ const randomWord = (l) => {
     }
     return ret.join('');
 };
-const processItem = (item, excludeUnbound, isAsync) => {
-    if (excludeUnbound && item.dataRef === null) {
-        return isAsync ? Promise.resolve(null) : null;
-    }
-    let ret = null;
-    if (item.isContainer) {
-        return isAsync
-            ? readAttachments(item, excludeUnbound).then(res => res)
-            : getAttachments(item, excludeUnbound);
-    }
-    else {
-        if (isFile(item.getState())) {
-            ret = {};
-            const name = item.name || '';
-            const dataRef = (item.dataRef != null)
-                ? item.dataRef
-                : (name.length > 0 ? item.name : undefined);
-            if (item.value instanceof Array) {
-                if (item.type === 'string[]') {
-                    if (isAsync) {
-                        return item.serialize().then(serializedFiles => {
-                            ret[item.id] = serializedFiles.map((x) => {
-                                return { ...x, 'dataRef': dataRef };
-                            });
-                            return ret;
-                        });
-                    }
-                    else {
-                        ret[item.id] = item.value.map((x) => {
-                            return { ...x, 'dataRef': dataRef };
-                        });
-                    }
-                }
-                else {
+const getAttachments = (input, excludeUnbound = false) => {
+    const items = input.items || [];
+    return items?.reduce((acc, item) => {
+        if (excludeUnbound && item.dataRef === null) {
+            return acc;
+        }
+        let ret = null;
+        if (item.isContainer) {
+            ret = getAttachments(item, excludeUnbound);
+        }
+        else {
+            if (isFile(item.getState())) {
+                ret = {};
+                const name = item.name || '';
+                const dataRef = (item.dataRef != null)
+                    ? item.dataRef
+                    : (name.length > 0 ? item.name : undefined);
+                if (item.value instanceof Array) {
                     ret[item.id] = item.value.map((x) => {
                         return { ...x, 'dataRef': dataRef };
                     });
                 }
-            }
-            else if (item.value != null) {
-                if (item.type === 'string') {
-                    if (isAsync) {
-                        return item.serialize().then(serializedFile => {
-                            ret[item.id] = { ...serializedFile[0], 'dataRef': dataRef };
-                            return ret;
-                        });
-                    }
-                    else {
-                        ret[item.id] = { ...item.value, 'dataRef': dataRef };
-                    }
-                }
-                else {
+                else if (item.value != null) {
                     ret[item.id] = { ...item.value, 'dataRef': dataRef };
                 }
             }
         }
-    }
-    return isAsync ? Promise.resolve(ret) : ret;
-};
-const readAttachments = async (input, excludeUnbound = false) => {
-    const items = input.items || [];
-    return items.reduce(async (accPromise, item) => {
-        const acc = await accPromise;
-        const ret = await processItem(item, excludeUnbound, true);
-        return Object.assign(acc, ret);
-    }, Promise.resolve({}));
-};
-const getAttachments = (input, excludeUnbound = false) => {
-    const items = input.items || [];
-    return items.reduce((acc, item) => {
-        const ret = processItem(item, excludeUnbound, false);
         return Object.assign(acc, ret);
     }, {});
 };
@@ -1885,9 +1819,6 @@ class Scriptable extends BaseNode {
         let updates;
         if (node) {
             updates = this.ruleEngine.execute(node, this.getExpressionScope(), context, false, eString);
-            if (updates instanceof Promise) {
-                this.form.addPromises(updates);
-            }
         }
         if (typeof updates !== 'undefined' && updates != null) {
             this.applyUpdates(updates);
@@ -2060,7 +1991,6 @@ class Container extends Scriptable {
         return {
             ...super.getState(forRestore),
             ...(forRestore ? {
-                initialItems: this.items.length,
                 ':items': undefined,
                 ':itemsOrder': undefined
             } : {}),
@@ -2659,22 +2589,6 @@ const request = async (context, uri, httpVerb, payload, success, error, headers)
         method: httpVerb
     };
     let inputPayload;
-    let encryptOutput = {};
-    try {
-        if (payload instanceof Promise) {
-            payload = await payload;
-        }
-    }
-    catch (error) {
-        console.error('Error resolving payload Promise:', error);
-        throw error;
-    }
-    if (payload.body && payload.headers) {
-        encryptOutput = { ...payload };
-        headers = { ...payload.headers };
-        payload = payload.body;
-        inputPayload = payload;
-    }
     if (payload && payload instanceof FileObject && payload.data instanceof File) {
         const formData = new FormData();
         formData.append(payload.name, payload.data);
@@ -2683,7 +2597,7 @@ const request = async (context, uri, httpVerb, payload, success, error, headers)
     else if (payload instanceof FormData) {
         inputPayload = payload;
     }
-    else if (payload && (typeof payload === 'string' || (typeof payload === 'object' && Object.keys(payload).length > 0))) {
+    else if (payload && typeof payload === 'object' && Object.keys(payload).length > 0) {
         const headerNames = Object.keys(headers);
         if (headerNames.length > 0) {
             requestOptions.headers = {
@@ -2695,45 +2609,35 @@ const request = async (context, uri, httpVerb, payload, success, error, headers)
             requestOptions.headers = { 'Content-Type': 'application/json' };
         }
         const contentType = requestOptions?.headers?.['Content-Type'] || 'application/json';
-        if (typeof payload === 'object') {
-            if (contentType === 'application/json') {
-                inputPayload = JSON.stringify(payload);
-            }
-            else if (contentType.indexOf('multipart/form-data') > -1) {
-                inputPayload = multipartFormData(payload);
-            }
-            else if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
-                inputPayload = urlEncoded(payload);
-            }
+        if (contentType === 'application/json') {
+            inputPayload = JSON.stringify(payload);
         }
-        if (contentType === 'text/plain') {
-            inputPayload = String(payload);
+        else if (contentType.indexOf('multipart/form-data') > -1) {
+            inputPayload = multipartFormData(payload);
+        }
+        else if (contentType.indexOf('application/x-www-form-urlencoded') > -1) {
+            inputPayload = urlEncoded(payload);
         }
     }
-    const response = await request$1(endpoint, inputPayload, requestOptions);
-    response.originalRequest = {
-        url: endpoint,
-        method: httpVerb,
-        ...encryptOutput
-    };
-    if (response?.status >= 200 && response?.status <= 299) {
+    const result = await request$1(endpoint, inputPayload, requestOptions);
+    if (result?.status >= 200 && result?.status <= 299) {
         const eName = getCustomEventName(success);
         if (success === 'submitSuccess') {
-            context.form.dispatch(new SubmitSuccess(response, true));
+            context.form.dispatch(new SubmitSuccess(result, true));
         }
         else {
-            context.form.dispatch(new CustomEvent(eName, response, true));
+            context.form.dispatch(new CustomEvent(eName, result, true));
         }
     }
     else {
         context.form.logger.error('Error invoking a rest API');
         const eName = getCustomEventName(error);
         if (error === 'submitError') {
-            context.form.dispatch(new SubmitError(response, true));
-            context.form.dispatch(new SubmitFailure(response, true));
+            context.form.dispatch(new SubmitError(result, true));
+            context.form.dispatch(new SubmitFailure(result, true));
         }
         else {
-            context.form.dispatch(new CustomEvent(eName, response, true));
+            context.form.dispatch(new CustomEvent(eName, result, true));
         }
     }
 };
@@ -2752,11 +2656,12 @@ const urlEncoded = (data) => {
 const submit = async (context, success, error, submitAs = 'multipart/form-data', input_data = null, action = '', metadata = null) => {
     const endpoint = action || context.form.action;
     let data = input_data;
-    const attachments = await readAttachments(context.form, true);
     if (typeof data != 'object' || data == null) {
-        data = context.form.exportData(attachments);
+        data = context.form.exportData();
     }
+    const attachments = getAttachments(context.form, true);
     let submitContentType = submitAs;
+    let headers = context.form.headers;
     const submitDataAndMetaData = { 'data': data, ...metadata };
     let formData = submitDataAndMetaData;
     if (Object.keys(attachments).length > 0 || submitAs === 'multipart/form-data') {
@@ -2764,6 +2669,7 @@ const submit = async (context, success, error, submitAs = 'multipart/form-data',
         submitContentType = 'multipart/form-data';
     }
     await request(context, endpoint, 'POST', formData, success, error, {
+        ...headers,
         'Content-Type': submitContentType
     });
 };
@@ -2917,7 +2823,8 @@ class FunctionRuntimeImpl {
                                     }
                                     return filesMap;
                                 }
-                            }
+                            },
+                            toNumber: interpreter.toNumber
                         };
                         return funcDef(...args, globals);
                     },
@@ -3090,31 +2997,20 @@ class FunctionRuntimeImpl {
                 _func: (args, data, interpreter) => {
                     const uri = toString(args[0]);
                     const httpVerb = toString(args[1]);
-                    let payload;
-                    let success;
-                    let error;
-                    let headers = {};
-                    if (args[2] && typeof args[2] === 'object' && !args[2].then && ('data' in args[2] || 'headers' in args[2])) {
-                        const payloadObj = valueOf(args[2]);
-                        payload = payloadObj.data;
-                        headers = payloadObj.headers || {};
+                    const payload = valueOf(args[2]);
+                    let success, error, headers = {};
+                    if (typeof (args[3]) === 'string') {
+                        interpreter.globals.form.logger.warn('This usage of request is deprecated. Please see the documentation and update');
                         success = valueOf(args[3]);
                         error = valueOf(args[4]);
                     }
                     else {
-                        payload = valueOf(args[2]);
-                        if (typeof (args[3]) === 'string') {
-                            interpreter.globals.form.logger.warn('This usage of request is deprecated. Please see the documentation and update');
-                            success = valueOf(args[3]);
-                            error = valueOf(args[4]);
-                        }
-                        else {
-                            headers = valueOf(args[3]);
-                            success = valueOf(args[4]);
-                            error = valueOf(args[5]);
-                        }
+                        headers = valueOf(args[3]);
+                        success = valueOf(args[4]);
+                        error = valueOf(args[5]);
                     }
-                    return request(interpreter.globals, uri, httpVerb, payload, success, error, headers);
+                    request(interpreter.globals, uri, httpVerb, payload, success, error, headers);
+                    return {};
                 },
                 _signature: []
             },
@@ -3193,34 +3089,10 @@ class FunctionRuntimeImpl {
                             interpreter.globals.form.dispatch(event);
                         }
                         else {
-                            const dispatchEventOnElement = (element, event, interpreter) => {
-                                interpreter.globals.form.getElement(element.$id).dispatch(event);
-                            };
-                            if (Array.isArray(element) && element.length > 0 && typeof element.$id === 'undefined') {
-                                element.forEach(el => {
-                                    dispatchEventOnElement(el, event, interpreter);
-                                });
-                            }
-                            else {
-                                dispatchEventOnElement(element, event, interpreter);
-                            }
+                            interpreter.globals.form.getElement(element.$id).dispatch(event);
                         }
                     }
                     return {};
-                },
-                _signature: []
-            },
-            encrypt: {
-                _func: async (args, data, interpreter) => {
-                    const payload = valueOf(args[0]);
-                    return payload;
-                },
-                _signature: []
-            },
-            decrypt: {
-                _func: async (args, data, interpreter) => {
-                    const encData = valueOf(args[0]);
-                    return encData;
                 },
                 _signature: []
             }
@@ -3281,8 +3153,6 @@ class Form extends Container {
     _fields = {};
     _ids;
     _invalidFields = [];
-    _exportDataAttachmentMap = {};
-    promises = [];
     _captcha = null;
     constructor(n, fieldFactory, _ruleEngine, _eventQueue = new EventQueue(), logLevel = 'off', mode = 'create') {
         super(n, { fieldFactory: fieldFactory, mode });
@@ -3306,17 +3176,6 @@ class Form extends Container {
             this.queueEvent(new FormLoad());
         }
     }
-    addPromises(updates) {
-        this.promises.push(updates);
-    }
-    async waitForPromises() {
-        let length = 0;
-        while (this.promises.length > length) {
-            length = this.promises.length;
-            await Promise.all(this.promises);
-        }
-        this.promises = [];
-    }
     _applyDefaultsInModel() {
         const current = this.specVersion;
         this._jsonModel.properties = this._jsonModel.properties || {};
@@ -3326,6 +3185,11 @@ class Form extends Container {
             this._jsonModel.properties['fd:changeEventBehaviour'] = 'self';
         }
     }
+
+    get headers() {
+        return this._jsonModel.headers || {};
+    }
+
     _logger;
     get activeField() {
         return this._findActiveField(this);
@@ -3358,11 +3222,8 @@ class Form extends Container {
         this.syncDataAndFormModel(this.getDataNode());
         this._eventQueue.runPendingQueue();
     }
-    exportData(attachmentSerializedMap = {}) {
-        this._exportDataAttachmentMap = attachmentSerializedMap;
-        const finalData = this.getDataNode()?.$value;
-        this._exportDataAttachmentMap = {};
-        return finalData;
+    exportData() {
+        return this.getDataNode()?.$value;
     }
     setAdditionalSubmitMetadata(metadata) {
         this.additionalSubmitMetadata = { ...this.additionalSubmitMetadata, ...metadata };
@@ -3398,12 +3259,6 @@ class Form extends Container {
                 captchaInfoObj[field.qualifiedName] = field.value;
             }
         });
-        const draftId = this.properties['fd:draftId'] || '';
-        if (draftId) {
-            this.setAdditionalSubmitMetadata({
-                'fd:draftId': draftId
-            });
-        }
         const options = {
             lang: this.lang,
             captchaInfo: captchaInfoObj,
@@ -3580,8 +3435,8 @@ class Form extends Container {
         }
     }
     submit(action, context) {
-        const validate_form = action?.payload?.validate_form;
-        if (validate_form === false || this.validate().length === 0) {
+        const validate_form = action?.payload?.validate_form !== false;
+        if (!validate_form || this.validate().length === 0) {
             const payload = action?.payload || {};
             const successEventName = payload?.success ? payload?.success : 'submitSuccess';
             const failureEventName = payload?.error ? payload?.error : 'submitError';
@@ -3599,7 +3454,7 @@ class Form extends Container {
         payload.metadata = {
             'draftMetadata': {
                 'lang': this.lang,
-                'fd:draftId': this.properties['fd:draftId'] || ''
+                'draftId': this.properties?.draftId || ''
             }
         };
         payload.success = 'custom:saveSuccess';
@@ -3613,7 +3468,7 @@ class Form extends Container {
         const draftId = action?.payload?.body?.draftId || '';
         const properties = this.properties;
         if (draftId && properties) {
-            properties['fd:draftId'] = draftId;
+            properties.draftId = draftId;
         }
     }
     reset() {
@@ -4756,21 +4611,14 @@ class DateField extends Field {
             this._jsonModel.placeholder = parseDateSkeleton(this._jsonModel.editFormat, this.locale);
         }
     }
-    #convertNumberToDate(value) {
-        const coercedValue = numberToDatetime(value);
-        if (!isNaN(coercedValue)) {
-            return formatDate(coercedValue, this.locale, this._dataFormat);
-        }
-        return null;
-    }
     get value() {
         return super.value;
     }
     set value(value) {
         if (typeof value === 'number') {
-            const coercedValue = this.#convertNumberToDate(value);
-            if (coercedValue) {
-                super.value = coercedValue;
+            const coercedValue = numberToDatetime(value);
+            if (!isNaN(coercedValue)) {
+                super.value = formatDate(coercedValue, this.locale, this._dataFormat);
             }
         }
         else {
@@ -4786,34 +4634,6 @@ class DateField extends Field {
             else {
                 super.value = value;
             }
-        }
-    }
-    get minimum() {
-        return super.minimum;
-    }
-    set minimum(value) {
-        if (typeof value === 'number') {
-            const coercedValue = this.#convertNumberToDate(value);
-            if (coercedValue) {
-                super.minimum = coercedValue;
-            }
-        }
-        else if (typeof value === 'string') {
-            super.minimum = value;
-        }
-    }
-    get maximum() {
-        return super.maximum;
-    }
-    set maximum(value) {
-        if (typeof value === 'number') {
-            const coercedValue = this.#convertNumberToDate(value);
-            if (coercedValue) {
-                super.maximum = coercedValue;
-            }
-        }
-        else if (typeof value === 'string') {
-            super.maximum = value;
         }
     }
 }
@@ -4833,7 +4653,7 @@ class Captcha extends Field {
         super(params, _options);
         this._captchaDisplayMode = params.captchaDisplayMode;
         this._captchaProvider = params.captchaProvider;
-        this._captchaSiteKey = params.captchaSiteKey;
+        this._captchaSiteKey = params.siteKey;
     }
     getDataNode() {
         return undefined;
@@ -4857,7 +4677,7 @@ class Button extends Field {
             return;
         }
         if (this._jsonModel.buttonType === 'submit') {
-            return this.form.dispatch(new Submit({ validate_form: true }));
+            return this.form.dispatch(new Submit());
         }
         if (this._jsonModel.buttonType === 'reset') {
             return this.form.dispatch(new Reset());
@@ -4889,7 +4709,8 @@ class FormFieldFactoryImpl {
                 minOccur: undefined,
                 maxOccur: undefined,
                 repeatable: undefined,
-                name: undefined
+                name: 'undefined',
+                visible: true
             };
             const newJson = {
                 ...{
@@ -4901,7 +4722,8 @@ class FormFieldFactoryImpl {
                     dataRef: child.dataRef,
                     events: {
                         'custom:setProperty': '$event.payload'
-                    }
+                    },
+                    visible: child.visible
                 },
                 ...{
                     'items': [newChild]
@@ -4942,40 +4764,23 @@ class FormFieldFactoryImpl {
     }
 }
 const FormFieldFactory = new FormFieldFactoryImpl();
-const createFormInstanceHelper = (formModel, logLevel, fModel) => {
-    let f = fModel;
-    if (f == null) {
-        formModel = sitesModelToFormModel(formModel);
-        f = new Form({ ...formModel }, FormFieldFactory, new RuleEngine(), new EventQueue(new Logger(logLevel)), logLevel);
-    }
-    const formData = formModel?.data;
-    if (formData) {
-        f.importData(formData);
-    }
-    return f;
-};
 const createFormInstance = (formModel, callback, logLevel = 'error', fModel = undefined) => {
     try {
-        const f = createFormInstanceHelper(formModel, logLevel, fModel);
+        let f = fModel;
+        {
+            if (f == null) {
+                formModel = sitesModelToFormModel(formModel);
+                f = new Form({ ...formModel }, FormFieldFactory, new RuleEngine(), new EventQueue(new Logger(logLevel)), logLevel);
+            }
+        }
+        const formData = formModel?.data;
+        if (formData) {
+            f.importData(formData);
+        }
         if (typeof callback === 'function') {
             callback(f);
         }
         f.getEventQueue().runPendingQueue();
-        return f;
-    }
-    catch (e) {
-        console.error(`Unable to create an instance of the Form ${e}`);
-        throw new Error(e);
-    }
-};
-const createFormInstanceSync = async (formModel, callback, logLevel = 'error', fModel = undefined) => {
-    try {
-        const f = createFormInstanceHelper(formModel, logLevel, fModel);
-        if (typeof callback === 'function') {
-            callback(f);
-        }
-        f.getEventQueue().runPendingQueue();
-        await f.waitForPromises();
         return f;
     }
     catch (e) {
@@ -5055,4 +4860,4 @@ const registerFunctions = (functions) => {
     FunctionRuntime.registerFunctions(functions);
 };
 
-export { createFormInstance, createFormInstanceSync, fetchForm, registerFunctions, restoreFormInstance, validateFormData, validateFormInstance };
+export { createFormInstance, fetchForm, registerFunctions, restoreFormInstance, validateFormData, validateFormInstance };

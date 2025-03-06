@@ -18,10 +18,6 @@
 * the terms of the Adobe license agreement accompanying it.
 *************************************************************************/
 
-/*
- *  Package: @aemforms/af-core
- *  Version: 0.22.117-SNAPSHOT
- */
 var EventSource;
 (function (EventSource) {
     EventSource["CODE"] = "code";
