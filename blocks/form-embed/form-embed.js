@@ -1,4 +1,4 @@
-import { loadFragment } from "../fragment/fragment.js";
+import { loadFragment } from '../fragment/fragment.js';
 
 export default function decorate(block) {
   // Create observer to load form when block enters viewport
@@ -10,7 +10,7 @@ export default function decorate(block) {
 
       const container = block.querySelector('a[href]');
       // get the pathname from the href
-      const pathname = new URL(container.href).pathname;
+      const { pathname } = new URL(container.href);
       const form = await loadFragment(pathname);
       block.replaceChildren(form.children[0]);
     }
