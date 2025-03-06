@@ -352,8 +352,8 @@
       },
       {
         "component": "container",
-        "name": "email",
-        "label": "Email Configuration",
+        "name": "restendpoint",
+        "label": "REST Endpoint Configuration",
         "collapsible": false,
         "condition": {
           "==": [
@@ -368,7 +368,7 @@
             "component": "boolean",
             "name": "enableRestEndpointPost",
             "label": "Enable POST request",
-            "valueType": "string"
+            "valueType": "boolean"
           },
           {
             "component": "text",
