@@ -70,8 +70,8 @@
           },
           {
             "component": "container",
-            "name": "email",
-            "label": "Email Configuration",
+            "name": "spreadsheet",
+            "label": "Spreadsheet Configuration",
             "collapsible": false,
             "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/franklin/spreadsheet"] },
             "fields" :[
