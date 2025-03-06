@@ -52,23 +52,86 @@
                   {
                       "name": "Send email",
                       "value": "fd/af/components/guidesubmittype/email"
+                  },
+                  {
+                    "name": "Submit to Spreadsheet",
+                    "value": "fd/af/components/guidesubmittype/franklin/spreadsheet"
+                  },
+                  {
+                    "name": "Submit to AEM Workflow",
+                    "value": "fd/af/components/guidesubmittype/aemworkflow"
+                  },
+                  {
+                    "name": "Submit to Azure Blob Storage",
+                    "value": "fd/af/components/guidesubmittype/azureblobstorage"
                   }
               ],
               "value" : ""
           },
           {
-              "component": "boolean",
-              "name": "enableRestEndpointPost",
-              "label": "Enable POST request",
-              "valueType": "string",
-              "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] }
+            "component": "container",
+            "name": "aemWorkflow",
+            "label": "AEM Workflow Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/aemworkflow"] },
+            "fields" :[
+              {
+                "component": "text",
+                "name": "workflowPath",
+                "label": "Workflow Path",
+                "valueType": "string"
+              }
+            ]
           },
           {
-              "component": "text",
-              "name": "restEndpointPostUrl",
-              "label": "URL For POST request",
-              "valueType": "string",
-              "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] }
+            "component": "container",
+            "name": "azureBlobStorage",
+            "label": "Azure Blob Storage Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/azureblobstorage"] },
+            "fields" :[
+              {
+                "component": "text",
+                "name": "storageConfiguration",
+                "label": "Storage Configuration",
+                "valueType": "string"
+              }
+            ]
+          },
+          {
+            "component": "container",
+            "name": "spreadsheet",
+            "label": "Spreadsheet Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/franklin/spreadsheet"] },
+            "fields" :[
+              {
+                "component": "text",
+                "name": "spreadsheetUrl",
+                "label": "Spreadsheet URL",
+                "valueType": "string"
+            }
+            ]
+          },
+          {
+            "component": "container",
+            "name": "restendpoint",
+            "label": "REST Endpoint Configuration",
+            "collapsible": false,
+            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/restendpoint"] },
+            "fields": [
+              {
+                "component": "boolean",
+                "name": "enableRestEndpointPost",
+                "label": "Enable POST request",
+                "valueType": "boolean"
+              },
+              {
+                  "component": "text",
+                  "name": "restEndpointPostUrl",
+                  "label": "URL For POST request",
+                  "valueType": "string"
+              }]
           },
           {
               "component": "container",
