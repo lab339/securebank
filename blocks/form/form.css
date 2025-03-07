@@ -8,7 +8,7 @@
     --button-primary-hover-color: #026169;
     --form-font-size-m: 22px;
     --form-font-size-s: 18px;
-    --form-font-size-xs: 16px;
+    --form-font-size-xs: 14px;
     --form-background-color: var(--background-color-primary);
     --form-padding: 0;
     --form-columns: 12;
@@ -26,7 +26,7 @@
     --form-paragraph-font-style: none;
     --form-paragraph-font-size: var(--form-font-size-s);
     --form-label-color: var(--label-color);
-    --form-label-font-size: var(--form-font-size-s);
+    --form-label-font-size: var(--form-font-size-xs);
     --form-label-font-weight: 400;
     --form-title-font-weight: 600;
     --form-fieldset-border: 0;
@@ -551,56 +551,58 @@ main .form .file-wrapper .file-drag-area {
 }
 
 /* grid css */
-main .form form .field-wrapper .field-description{
-  grid-column: span 12;
-}
-
-main .form form .field-wrapper.col-12 {
+@media (width >= 900px) {
+    main .form form .field-wrapper .field-description{
     grid-column: span 12;
-}
+    }
 
-main .form form .field-wrapper.col-11 {
-    grid-column: span 11;
-}
+    main .form form .field-wrapper.col-12 {
+        grid-column: span 12;
+    }
 
-main .form form .field-wrapper.col-10 {
-  grid-column: span 10;
-}
+    main .form form .field-wrapper.col-11 {
+        grid-column: span 11;
+    }
 
-main .form form .field-wrapper.col-9 {
-    grid-column: span 9;
-}
+    main .form form .field-wrapper.col-10 {
+    grid-column: span 10;
+    }
 
-main .form form .field-wrapper.col-8 {
-    grid-column: span 8;
-}
+    main .form form .field-wrapper.col-9 {
+        grid-column: span 9;
+    }
 
-main .form form .field-wrapper.col-7 {
-    grid-column: span 7;
-}
+    main .form form .field-wrapper.col-8 {
+        grid-column: span 8;
+    }
 
-main .form form .field-wrapper.col-6 {
-      grid-column: span 6;
-}
+    main .form form .field-wrapper.col-7 {
+        grid-column: span 7;
+    }
 
-main .form form .field-wrapper.col-5 {
-      grid-column: span 5;
-}
+    main .form form .field-wrapper.col-6 {
+        grid-column: span 6;
+    }
 
-main .form form .field-wrapper.col-4 {
-      grid-column: span 4;
-}
+    main .form form .field-wrapper.col-5 {
+        grid-column: span 5;
+    }
 
-main .form form .field-wrapper.col-3 {
-      grid-column: span 3;
-}
+    main .form form .field-wrapper.col-4 {
+        grid-column: span 4;
+    }
 
-main .form form .field-wrapper.col-2 {
-      grid-column: span 2;
-}
+    main .form form .field-wrapper.col-3 {
+        grid-column: span 3;
+    }
 
-main .form form .field-wrapper.col-1 {
-    grid-column: span 1;
+    main .form form .field-wrapper.col-2 {
+        grid-column: span 2;
+    }
+
+    main .form form .field-wrapper.col-1 {
+        grid-column: span 1;
+    }
 }
 
 main .form .form-image-wrapper  img {
@@ -663,8 +665,66 @@ main .form form .checkbox-wrapper {
 
 main .form form .checkbox-wrapper label {
     line-height: 1.5;
+    text-align: justify;
 }
 
 main .form form .checkbox-wrapper input {
-    margin-top: 6px;
+    margin-top: 3px;
+}
+
+main .form form {
+    max-width: 650px;
+    margin: auto;
+}
+
+main .form form .field-wrapper label {
+    font-weight: 700;
+    letter-spacing: 0%;
+    color: #505050;
+    width: 100%;
+    max-width: 555px;
+}
+
+/** theme css */
+@media (width >= 900px) {
+    main .form form {
+        max-width: unset;
+        min-width: 650px;
+    }
+
+    main .form form .field-wrapper label {
+        font-weight: 700;
+        letter-spacing: 0;
+        color: #505050;
+        display: block;
+        position: relative;
+    }
+
+    main .form form .field-wrapper input[type="text"],
+    main .form form .field-wrapper input[type="email"],
+    main .form form .field-wrapper input[type="tel"],
+    main .form form .field-wrapper input[type="date"],
+    main .form form .field-wrapper input[type="number"],
+    main .form form .field-wrapper input[type="password"],
+    main .form form .field-wrapper select {
+        padding: 0 15px;
+        background-color: #F3F2F6;
+        border: 0;
+    }
+
+    main .form form .field-wrapper input[type="text"]:focus,
+    main .form form .field-wrapper input[type="email"]:focus,
+    main .form form .field-wrapper input[type="tel"]:focus,
+    main .form form .field-wrapper input[type="date"]:focus,
+    main .form form .field-wrapper input[type="number"]:focus,
+    main .form form .field-wrapper input[type="password"]:focus,
+    main .form form .field-wrapper select {
+        outline: none;
+    }
+}
+
+@media (width >= 1800px) {
+    :root {
+        --form-label-font-size: var(--form-font-size-s);
+    }
 }
