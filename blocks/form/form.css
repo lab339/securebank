@@ -728,14 +728,3 @@ main .form form .field-wrapper select {
         --form-label-font-size: var(--form-font-size-s);
     }
 }
-
-.svg-image {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: 60%;
-}
-
-.svg-image img {
-    display: none;
-}
