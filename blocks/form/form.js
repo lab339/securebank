@@ -249,13 +249,20 @@ function createPlainText(fd) {
 function createImage(fd) {
   const field = createFieldWrapper(fd);
   const imagePath = fd.source || fd.properties['fd:repoPath'] || '';
-  const image = `
-  <picture>
-    <source srcset="${imagePath}?width=2000&optimize=medium" media="(min-width: 600px)">
-    <source srcset="${imagePath}?width=750&optimize=medium">
-    <img alt="${fd.altText || fd.name}" src="${imagePath}?width=750&optimize=medium">
-  </picture>`;
-  field.innerHTML = image;
+  const sanitizedImagePath = imagePath.toLowerCase().replace(/[^a-z0-9/.]/g, '-');
+
+  // Check if the path is for an SVG
+  if (sanitizedImagePath.endsWith('.svg')) {
+    const image = `
+      <div class="svg-image" style="background-image: url('${sanitizedImagePath}')">
+        <img src="${sanitizedImagePath}" class="icon" alt="">
+      </div>`;
+    field.innerHTML = image;
+  } else {
+    const image = `<div class="image"><img src="${sanitizedImagePath}" alt=""></div>`;
+    field.innerHTML = image;
+  }
+
   return field;
 }
 
