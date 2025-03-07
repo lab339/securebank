@@ -691,36 +691,36 @@ main .form form .field-wrapper label {
         max-width: unset;
         min-width: 650px;
     }
+}
 
-    main .form form .field-wrapper label {
-        font-weight: 700;
-        letter-spacing: 0;
-        color: #505050;
-        display: block;
-        position: relative;
-    }
+main .form form .field-wrapper label {
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #505050;
+  display: block;
+  position: relative;
+}
 
-    main .form form .field-wrapper input[type="text"],
-    main .form form .field-wrapper input[type="email"],
-    main .form form .field-wrapper input[type="tel"],
-    main .form form .field-wrapper input[type="date"],
-    main .form form .field-wrapper input[type="number"],
-    main .form form .field-wrapper input[type="password"],
-    main .form form .field-wrapper select {
-        padding: 0 15px;
-        background-color: #F3F2F6;
-        border: 0;
-    }
+main .form form .field-wrapper input[type="text"],
+main .form form .field-wrapper input[type="email"],
+main .form form .field-wrapper input[type="tel"],
+main .form form .field-wrapper input[type="date"],
+main .form form .field-wrapper input[type="number"],
+main .form form .field-wrapper input[type="password"],
+main .form form .field-wrapper select {
+  padding: 0 15px;
+  background-color: #F3F2F6;
+  border: 0;
+}
 
-    main .form form .field-wrapper input[type="text"]:focus,
-    main .form form .field-wrapper input[type="email"]:focus,
-    main .form form .field-wrapper input[type="tel"]:focus,
-    main .form form .field-wrapper input[type="date"]:focus,
-    main .form form .field-wrapper input[type="number"]:focus,
-    main .form form .field-wrapper input[type="password"]:focus,
-    main .form form .field-wrapper select {
-        outline: none;
-    }
+main .form form .field-wrapper input[type="text"]:focus,
+main .form form .field-wrapper input[type="email"]:focus,
+main .form form .field-wrapper input[type="tel"]:focus,
+main .form form .field-wrapper input[type="date"]:focus,
+main .form form .field-wrapper input[type="number"]:focus,
+main .form form .field-wrapper input[type="password"]:focus,
+main .form form .field-wrapper select {
+  outline: none;
 }
 
 @media (width >= 1800px) {
