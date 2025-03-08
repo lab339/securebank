@@ -21,7 +21,9 @@
       "featurearticles",
       "map",
       "offer",
-      "forex"
+      "forex",
+      "form-embed",
+      "form"
     ]
   },
   {
@@ -70,7 +72,8 @@
       "telephone-input",
       "text-input",
       "tnc",
-      "wizard"
+      "wizard",
+      "range"
     ]
   }
 ]

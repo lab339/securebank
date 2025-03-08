@@ -60,7 +60,9 @@
         "featurearticles",
         "map",
         "offer",
-        "forex"       
+        "forex",
+        "form-embed",
+        "form"
       ]
     }
   ]

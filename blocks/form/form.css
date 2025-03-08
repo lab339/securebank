@@ -8,7 +8,7 @@
     --button-primary-hover-color: #026169;
     --form-font-size-m: 22px;
     --form-font-size-s: 18px;
-    --form-font-size-xs: 16px;
+    --form-font-size-xs: 14px;
     --form-background-color: var(--background-color-primary);
     --form-padding: 0;
     --form-columns: 12;
@@ -26,7 +26,7 @@
     --form-paragraph-font-style: none;
     --form-paragraph-font-size: var(--form-font-size-s);
     --form-label-color: var(--label-color);
-    --form-label-font-size: var(--form-font-size-s);
+    --form-label-font-size: var(--form-font-size-xs);
     --form-label-font-weight: 400;
     --form-title-font-weight: 600;
     --form-fieldset-border: 0;
@@ -306,11 +306,6 @@ main .file-wrapper .field-dropregion {
 
 /* Repeatable Styling */
 
-/* Hide repeatable wrapper if it has no visible children */
-main .form form .repeat-wrapper:not(:has(> .panel-wrapper[data-visible="true"], > .panel-wrapper:not([data-visible]))) {
-    display: none;
-}
-
 main .form form .repeat-actions {
     grid-column: span 12;
     order: 2;
@@ -331,6 +326,20 @@ main .form form div[data-variant="addRemoveButtons"] .item-add,
 main .form form div[data-variant="addRemoveButtons"] .item-remove {
     display: block;
 }
+
+/* Hide repeatable wrapper if it has no visible children */
+form fieldset > .repeat-wrapper > .repeat-actions {
+    display: none;
+}
+
+form fieldset > .repeat-wrapper > fieldset[data-visible="true"] ~ .repeat-actions {
+    display: block;
+}
+
+form fieldset > .repeat-wrapper > fieldset:not([data-visible="false"]) ~ .repeat-actions {
+    display: block;
+}
+
 
 /* End of Repeatable Styling */
 main .form .file-description{
@@ -542,56 +551,58 @@ main .form .file-wrapper .file-drag-area {
 }
 
 /* grid css */
-main .form form .field-wrapper .field-description{
-  grid-column: span 12;
-}
-
-main .form form .field-wrapper.col-12 {
+@media (width >= 900px) {
+    main .form form .field-wrapper .field-description{
     grid-column: span 12;
-}
+    }
 
-main .form form .field-wrapper.col-11 {
-    grid-column: span 11;
-}
+    main .form form .field-wrapper.col-12 {
+        grid-column: span 12;
+    }
 
-main .form form .field-wrapper.col-10 {
-  grid-column: span 10;
-}
+    main .form form .field-wrapper.col-11 {
+        grid-column: span 11;
+    }
 
-main .form form .field-wrapper.col-9 {
-    grid-column: span 9;
-}
+    main .form form .field-wrapper.col-10 {
+    grid-column: span 10;
+    }
 
-main .form form .field-wrapper.col-8 {
-    grid-column: span 8;
-}
+    main .form form .field-wrapper.col-9 {
+        grid-column: span 9;
+    }
 
-main .form form .field-wrapper.col-7 {
-    grid-column: span 7;
-}
+    main .form form .field-wrapper.col-8 {
+        grid-column: span 8;
+    }
 
-main .form form .field-wrapper.col-6 {
-      grid-column: span 6;
-}
+    main .form form .field-wrapper.col-7 {
+        grid-column: span 7;
+    }
 
-main .form form .field-wrapper.col-5 {
-      grid-column: span 5;
-}
+    main .form form .field-wrapper.col-6 {
+        grid-column: span 6;
+    }
 
-main .form form .field-wrapper.col-4 {
-      grid-column: span 4;
-}
+    main .form form .field-wrapper.col-5 {
+        grid-column: span 5;
+    }
 
-main .form form .field-wrapper.col-3 {
-      grid-column: span 3;
-}
+    main .form form .field-wrapper.col-4 {
+        grid-column: span 4;
+    }
 
-main .form form .field-wrapper.col-2 {
-      grid-column: span 2;
-}
+    main .form form .field-wrapper.col-3 {
+        grid-column: span 3;
+    }
 
-main .form form .field-wrapper.col-1 {
-    grid-column: span 1;
+    main .form form .field-wrapper.col-2 {
+        grid-column: span 2;
+    }
+
+    main .form form .field-wrapper.col-1 {
+        grid-column: span 1;
+    }
 }
 
 main .form .form-image-wrapper  img {
@@ -654,6 +665,7 @@ main .form form .checkbox-wrapper {
 
 main .form form .checkbox-wrapper label {
     line-height: 1.5;
+    text-align: justify;
 }
 
 main .form form .checkbox-wrapper input {
