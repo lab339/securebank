@@ -669,11 +669,7 @@ main .form form .checkbox-wrapper label {
 }
 
 main .form form .checkbox-wrapper input {
-    margin-top: 6px;
-}
-
-main .form form .checkbox-wrapper input {
-    margin-top: 6px;
+    margin-top: 3px;
 }
 
 main .form form {
