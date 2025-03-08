@@ -728,3 +728,7 @@ main .form form .field-wrapper select {
         --form-label-font-size: var(--form-font-size-s);
     }
 }
+
+body {
+    background-color: rgb(0 150 166);
+}
