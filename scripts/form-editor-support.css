@@ -88,7 +88,7 @@ main .form form.edit-mode .captcha-wrapper {
 
 
 
-.adobe-ue-edit .embed-adaptive-form-wrapper:not(:has(form)) {
+.adobe-ue-edit .embed-adaptive-form-wrapper:not(:has(form, a)) {
     display: flex !important;
     justify-content: center;
     padding: 15px;
@@ -96,6 +96,6 @@ main .form form.edit-mode .captcha-wrapper {
     linear-gradient(90deg,rgba(0 0 0 / 5%),rgba(255 255 255 / 5%),rgba(0 0 0 / 5%));
 }
 
-.adobe-ue-edit .embed-adaptive-form-wrapper:not(:has(form))::before {
+.adobe-ue-edit .embed-adaptive-form-wrapper:not(:has(form, a))::before {
     content: "Select an Adaptive Form";
 }
