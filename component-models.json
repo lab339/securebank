@@ -160,6 +160,21 @@
     ]
   },
   {
+    "id": "embed-adaptive-form",
+    "fields": [
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "formPath",
+        "value": "",
+        "label": "Form Path",
+        "validation": {
+          "rootPath": "/content/forms/af"
+        }
+      }
+    ]
+  },
+  {
     "id": "faq",
     "fields": [
       {
@@ -255,18 +270,6 @@
             "value": "EUR"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "form-embed",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "formPath",
-        "value": "",
-        "label": "Form Path"
       }
     ]
   },
