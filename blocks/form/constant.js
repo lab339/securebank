@@ -16,6 +16,8 @@ export const defaultErrorMessages = {
   required: 'Please fill in this field.',
 };
 
+export const SUBMISSION_SERVICE = 'https://forms.adobe.com/adobe/forms/af/submit/';
+
 export function getRouting() {
   const regex = /(.*?)--(.*?)--(.*?)\.(hlx|aem)\.(.*)/;
   const match = window?.location?.host?.match(regex);

@@ -2653,7 +2653,7 @@ const urlEncoded = (data) => {
     });
     return formData;
 };
-const submit = async (context, success, error, submitAs = 'multipart/form-data', input_data = null, action = '', metadata = null) => {
+const submit = async (context, success, error, submitAs = 'application/json', input_data = null, action = '', metadata = null) => {
     const endpoint = action || context.form.action;
     let data = input_data;
     if (typeof data != 'object' || data == null) {
@@ -2942,13 +2942,13 @@ class FunctionRuntimeImpl {
                     if (args.length > 0 && typeof valueOf(args[0]) === 'object') {
                         submit_data = args.length > 0 ? valueOf(args[0]) : null;
                         validate_form = args.length > 1 ? valueOf(args[1]) : true;
-                        submit_as = args.length > 2 ? toString(args[2]) : 'multipart/form-data';
+                        submit_as = args.length > 2 ? toString(args[2]) : 'application/json';
                     }
                     else {
                         interpreter.globals.form.logger.warn('This usage of submitForm is deprecated. Please see the documentation and update');
                         success = toString(args[0]);
                         error = toString(args[1]);
-                        submit_as = args.length > 2 ? toString(args[2]) : 'multipart/form-data';
+                        submit_as = args.length > 2 ? toString(args[2]) : 'application/json';
                         submit_data = args.length > 3 ? valueOf(args[3]) : null;
                         validate_form = args.length > 4 ? valueOf(args[4]) : true;
                     }
