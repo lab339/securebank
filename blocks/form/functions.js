@@ -40,5 +40,29 @@ function setMaximumDate(globals) {
   globals.functions.setProperty(globals.field, { maximum: stringDate });
 }
 
+/**
+  * Custom submit function
+  * @param {scope} globals
+  */
+function customSubmit(globals) {
+  const data = globals.functions.exportData();
+  Object.keys(data).forEach((key) => {
+    if (Array.isArray(data[key]) && data[key].length > 0) {
+      const el = data[key][0];
+      if (typeof el === 'string' || typeof el === 'number') {
+        data[key] = data[key].join(',');
+      } else if (typeof el === 'object') {
+        Object.keys(el).forEach((subKey) => {
+          if (typeof el[subKey] === 'string' || typeof el[subKey] === 'number') {
+            data[`${key}-${subKey}`] = data[key].map((item) => item[subKey]).join(',');
+          }
+        });
+      }
+    }
+  });
+  globals.functions.submitForm(data, true, 'application/json');
+}
 // eslint-disable-next-line import/prefer-default-export
-export { getFullName, days, setMaximumDate };
+export {
+  getFullName, days, setMaximumDate, customSubmit,
+};
