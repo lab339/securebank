@@ -385,7 +385,7 @@
             {
               "var": "actionType"
             },
-            "fd/af/components/guidesubmittype/franklin/spreadsheet"
+            "spreadsheet"
           ]
         },
         "fields": [

@@ -103,7 +103,7 @@
             "name": "spreadsheet",
             "label": "Spreadsheet Configuration",
             "collapsible": false,
-            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/franklin/spreadsheet"] },
+            "condition": { "==": [{ "var": "actionType" }, "spreadsheet"] },
             "fields" :[
               {
                 "component": "text",
