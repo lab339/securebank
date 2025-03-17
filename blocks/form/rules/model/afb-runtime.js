@@ -2663,13 +2663,14 @@ const submit = async (context, success, error, submitAs = 'application/json', in
     let submitContentType = submitAs;
     let headers = context.form.headers;
     const submitDataAndMetaData = { 'data': data, ...metadata };
-    let formData = submitDataAndMetaData;
+    let formData = submitDataAndMetaData;a
     if (Object.keys(attachments).length > 0 || submitAs === 'multipart/form-data') {
         formData = multipartFormData(submitDataAndMetaData, attachments);
         submitContentType = 'multipart/form-data';
     }
     await request(context, endpoint, 'POST', formData, success, error, {
         ...headers,
+        'X-Dev': 'ci13862519902',
         'Content-Type': submitContentType
     });
 };
