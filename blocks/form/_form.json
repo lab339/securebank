@@ -34,7 +34,7 @@
           },
           {
               "component": "richtext",
-              "name": "thankYouMessage",
+              "name": "thankYouMessageContent",
               "label": "Message Content",
               "valueType": "string",
               "condition": { "==": [{ "var": "thankYouOption" }, "message"] }
