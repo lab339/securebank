@@ -866,7 +866,7 @@ const replaceTemplatePlaceholders = (str, values = []) => {
     });
 };
 const dateRegex = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
-const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const daysInMonth = (leapYear, month) => {
     if (leapYear && month == 2) {
@@ -2529,9 +2529,22 @@ const request$1 = (url, data = null, options = {}) => {
     }).then(async (response) => {
         let body;
         const headers = {};
-        response?.headers?.entries().forEach(([key, value]) => {
-            headers[key.toLowerCase()] = value;
-        });
+
+        // More robust header handling
+        if (response && response.headers) {
+            // Try entries() first
+            if (typeof response.headers.entries === 'function') {
+                for (const [key, value] of response.headers.entries()) {
+                    headers[key.toLowerCase()] = value;
+                }
+            } else {
+                // Fallback to forEach if entries() is not available
+                response.headers.forEach((value, key) => {
+                    headers[key.toLowerCase()] = value;
+                });
+            }
+        }
+
         if (!response.ok) {
             console.error(`Error while fetching response from ${url} : ${response.statusText}`);
         }
