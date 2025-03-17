@@ -2663,7 +2663,7 @@ const submit = async (context, success, error, submitAs = 'application/json', in
     let submitContentType = submitAs;
     let headers = context.form.headers;
     const submitDataAndMetaData = { 'data': data, ...metadata };
-    let formData = submitDataAndMetaData;a
+    let formData = submitDataAndMetaData;
     if (Object.keys(attachments).length > 0 || submitAs === 'multipart/form-data') {
         formData = multipartFormData(submitDataAndMetaData, attachments);
         submitContentType = 'multipart/form-data';
