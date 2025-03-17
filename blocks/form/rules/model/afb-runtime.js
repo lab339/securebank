@@ -2546,6 +2546,13 @@ const request$1 = (url, data = null, options = {}) => {
             body,
             headers
         };
+    }).catch((error) => {
+        console.error(`Error while fetching response from ${url} : ${error}`);
+        return {
+            status: 500,
+            body: error,
+            headers: {}
+        };
     });
 };
 const defaultRequestOptions = {
