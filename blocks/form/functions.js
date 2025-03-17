@@ -62,6 +62,15 @@ function customSubmit(globals) {
   });
   globals.functions.submitForm(data, true, 'application/json');
 }
+
+/**
+ * Remove the parent instance
+ * @param {*} globals
+ */
+function removeParentInstance(globals) {
+  globals.functions.removeInstance(globals.$parent, globals.$parent.$index);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName, days, setMaximumDate, customSubmit,
