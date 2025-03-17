@@ -55,7 +55,7 @@
                   },
                   {
                     "name": "Submit to Spreadsheet",
-                    "value": "fd/af/components/guidesubmittype/franklin/spreadsheet"
+                    "value": "spreadsheet"
                   },
                   {
                     "name": "Submit to AEM Workflow",
@@ -103,7 +103,7 @@
             "name": "spreadsheet",
             "label": "Spreadsheet Configuration",
             "collapsible": false,
-            "condition": { "==": [{ "var": "actionType" }, "fd/af/components/guidesubmittype/franklin/spreadsheet"] },
+            "condition": { "==": [{ "var": "actionType" }, "spreadsheet"] },
             "fields" :[
               {
                 "component": "text",

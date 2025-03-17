@@ -318,7 +318,7 @@
           },
           {
             "name": "Submit to Spreadsheet",
-            "value": "fd/af/components/guidesubmittype/franklin/spreadsheet"
+            "value": "spreadsheet"
           },
           {
             "name": "Submit to AEM Workflow",
@@ -385,7 +385,7 @@
             {
               "var": "actionType"
             },
-            "fd/af/components/guidesubmittype/franklin/spreadsheet"
+            "spreadsheet"
           ]
         },
         "fields": [
