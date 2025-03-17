@@ -65,7 +65,7 @@ function customSubmit(globals) {
 
 /**
  * Remove the parent instance
- * @param {*} globals
+ * @param {scope} globals
  */
 function removeParentInstance(globals) {
   globals.functions.removeInstance(globals.$parent, globals.$parent.$index);
