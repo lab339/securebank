@@ -2528,19 +2528,18 @@ const request$1 = (url, data = null, options = {}) => {
         ...opts
     }).then(async (response) => {
         let body;
+        const headers = {};
+        response?.headers?.entries().forEach(([key, value]) => {
+            headers[key.toLowerCase()] = value;
+        });
         if (!response.ok) {
             console.error(`Error while fetching response from ${url} : ${response.statusText}`);
         }
-        if (response?.headers?.get('Content-Type')?.includes('application/json')) {
+        if (headers['content-type']?.includes('application/json')) {
             body = await response.json();
-        }
-        else {
+        } else {
             body = await response.text();
         }
-        const headers = {};
-        response?.headers?.forEach((value, key) => {
-            headers[key] = value;
-        });
         return {
             status: response.status,
             body,
