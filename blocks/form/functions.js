@@ -73,5 +73,5 @@ function removeParentInstance(globals) {
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, setMaximumDate, customSubmit,
+  getFullName, days, setMaximumDate, customSubmit, removeParentInstance,
 };
