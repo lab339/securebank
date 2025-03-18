@@ -68,7 +68,7 @@ function customSubmit(globals) {
  * @param {scope} globals
  */
 function removeParentInstance(globals) {
-  globals.functions.removeInstance(globals.$parent, globals.$parent.$index);
+  globals.functions.removeInstance(globals.field.$parent, globals.field.$parent.$index);
 }
 
 // eslint-disable-next-line import/prefer-default-export
